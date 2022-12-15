@@ -542,6 +542,7 @@ class _PromotionalDrawEditScreenState
                                 (val) => {sponsorWhoWeAre = val},
                                 initialValue: sponsorWhoWeAre,
                                 maxLength: 500,
+                                notRequired: true,
                                 onChange: (val) => sponsorWhoWeAre = val,
                               ),
                               CustomTextField(
@@ -549,6 +550,7 @@ class _PromotionalDrawEditScreenState
                                 (val) => {sponsorMission = val},
                                 initialValue: sponsorMission,
                                 maxLength: 500,
+                                notRequired: true,
                                 onChange: (val) => sponsorMission = val,
                               ),
                               CustomTextField(
@@ -556,6 +558,7 @@ class _PromotionalDrawEditScreenState
                                 (val) => {sponsorOrigin = val},
                                 initialValue: sponsorOrigin,
                                 maxLength: 500,
+                                notRequired: true,
                                 onChange: (val) => sponsorOrigin = val,
                               ),
                               CustomTextField(
@@ -563,6 +566,7 @@ class _PromotionalDrawEditScreenState
                                 (val) => {sponsorFindUs = val},
                                 initialValue: sponsorFindUs,
                                 maxLength: 500,
+                                notRequired: true,
                                 onChange: (val) => sponsorFindUs = val,
                               ),
                             ],

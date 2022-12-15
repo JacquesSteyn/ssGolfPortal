@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
       this.allowDecimal = false,
       this.readOnly = false,
       this.maxLength,
+      this.notRequired = false,
       Key? key,
       this.width})
       : super(key: key);
@@ -22,6 +23,7 @@ class CustomTextField extends StatelessWidget {
   double? width;
   bool readOnly;
   int? maxLength;
+  bool notRequired;
 
   String formatVal(String val) {
     if (val.isEmpty && onlyNumbers) {
@@ -84,6 +86,10 @@ class CustomTextField extends StatelessWidget {
                   onlyNumbers ? (initialValue ?? "0") : (initialValue ?? ""),
               decoration: const InputDecoration(border: InputBorder.none),
               validator: (val) {
+                if (notRequired) {
+                  return null;
+                }
+
                 if (val == null || val.isEmpty) {
                   return '$title is required.';
                 } else {
