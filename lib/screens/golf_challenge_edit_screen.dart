@@ -392,6 +392,7 @@ class _GolfEditScreenState extends ConsumerState<GolfEditScreen> {
               decoration: const BoxDecoration(color: Colors.white),
               headerColor: Colors.white,
               items: _items,
+              scroll: false,
               initialValue: _selectedNotes,
               onTap: (values) {
                 selectedNotes = values;

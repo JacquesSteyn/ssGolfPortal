@@ -288,6 +288,7 @@ class _PhysicalEditScreenState extends ConsumerState<PhysicalEditScreen> {
               headerColor: Colors.white,
               items: _items,
               initialValue: _selectedNotes,
+              scroll: false,
               onTap: (values) {
                 selectedNotes = values;
               },
