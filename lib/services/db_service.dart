@@ -173,6 +173,17 @@ class DBService {
     return "0";
   }
 
+  Stream<DatabaseEvent> streamedChallengeResults(
+    String challengeID,
+  ) {
+    return _db
+        .ref()
+        .child(_dbPaths.feedbackResults)
+        .orderByChild('challengeId')
+        .equalTo(challengeID)
+        .onValue;
+  }
+
   Future<GolfChallenge> createNewGolfChallenge(GolfChallenge challenge) async {
     DatabaseReference ref = _db.ref(_dbPaths.golfChallenges).push();
     challenge.id = ref.key!;
@@ -183,7 +194,7 @@ class DBService {
 
   Future<GolfChallenge> updateGolfChallenge(GolfChallenge challenge) async {
     await _db
-        .ref(_dbPaths.golfChallenges + "/" + challenge.id)
+        .ref("${_dbPaths.golfChallenges}/${challenge.id}")
         .update(challenge.getJson());
     return challenge;
   }
@@ -196,24 +207,20 @@ class DBService {
   }
 
   Future<Skill> updateSkill(Skill skill) async {
-    await _db.ref(_dbPaths.golfSkill + "/" + skill.id).update(skill.getJson());
+    await _db.ref("${_dbPaths.golfSkill}/${skill.id}").update(skill.getJson());
     return skill;
   }
 
   void deleteSkill(Skill skill) {
     if (skill.id.isNotEmpty) {
-      _db.ref(_dbPaths.golfSkill + "/" + skill.id).remove();
+      _db.ref("${_dbPaths.golfSkill}/${skill.id}").remove();
     }
   }
 
   void deleteSkillElement(Skill skill, SkillElement element) {
     if (skill.id.isNotEmpty) {
       _db
-          .ref(_dbPaths.golfSkill +
-              "/" +
-              skill.id +
-              "/elements/" +
-              element.id.toString())
+          .ref("${_dbPaths.golfSkill}/${skill.id}/elements/${element.id}")
           .remove();
     }
   }
@@ -264,7 +271,7 @@ class DBService {
   Future<PhysicalChallenge> updatePhysicalChallenge(
       PhysicalChallenge challenge) async {
     await _db
-        .ref(_dbPaths.physicalChallenges + "/" + challenge.id)
+        .ref("${_dbPaths.physicalChallenges}/${challenge.id}")
         .update(challenge.getJson());
     return challenge;
   }
@@ -290,14 +297,14 @@ class DBService {
 
   Future<Attribute> updateAttribute(Attribute attribute) async {
     await _db
-        .ref(_dbPaths.physicalAttributes + "/" + attribute.id)
+        .ref("${_dbPaths.physicalAttributes}/${attribute.id}")
         .update(attribute.getJson());
     return attribute;
   }
 
   void deleteAttribute(Attribute att) {
     if (att.id.isNotEmpty) {
-      _db.ref(_dbPaths.physicalAttributes + "/" + att.id).remove();
+      _db.ref("${_dbPaths.physicalAttributes}/${att.id}").remove();
     }
   }
 
@@ -326,20 +333,20 @@ class DBService {
   }
 
   Future<Note> updateNote(Note note) async {
-    await _db.ref(_dbPaths.notes + "/" + note.id).update(note.getJson());
+    await _db.ref("${_dbPaths.notes}/${note.id}").update(note.getJson());
     return note;
   }
 
   void deleteNote(Note note) {
     if (note.id.isNotEmpty) {
-      _db.ref(_dbPaths.notes + "/" + note.id).remove();
+      _db.ref("${_dbPaths.notes}/${note.id}").remove();
     }
   }
 
   void deleteNoteOption(Note note, String optionID) {
     if (note.id.isNotEmpty && optionID.isNotEmpty) {
       //print(_dbPaths.notes + "/" + note.id + "/options/" + optionID);
-      _db.ref(_dbPaths.notes + "/" + note.id + "/options/" + optionID).remove();
+      _db.ref("${_dbPaths.notes}/${note.id}/options/$optionID").remove();
     }
   }
 
@@ -369,14 +376,14 @@ class DBService {
   }
 
   Future<WeightingBands> updateWeightingBands(WeightingBands band) async {
-    await _db.ref(_dbPaths.bands + "/" + band.id).update(band.getJson());
+    await _db.ref("${_dbPaths.bands}/${band.id}").update(band.getJson());
 
     return band;
   }
 
   void deleteWeightingBands(WeightingBands band) {
     if (band.id.isNotEmpty) {
-      _db.ref(_dbPaths.bands + "/" + band.id).remove();
+      _db.ref("${_dbPaths.bands}/${band.id}").remove();
     }
   }
 
@@ -409,13 +416,13 @@ class DBService {
 
   void deletePromotionalDraw(PromotionalDraw draw) async {
     if (draw.id.isNotEmpty) {
-      await _db.ref(_dbPaths.promotionalDraws + "/" + draw.id).remove();
+      await _db.ref("${_dbPaths.promotionalDraws}/${draw.id}").remove();
     }
   }
 
   Future<PromotionalDraw> updatePromotionalDraw(PromotionalDraw draw) async {
     await _db
-        .ref(_dbPaths.promotionalDraws + "/" + draw.id)
+        .ref("${_dbPaths.promotionalDraws}/${draw.id}")
         .update(draw.getJson());
     return draw;
   }
@@ -449,13 +456,13 @@ class DBService {
 
   void deleteVoucher(Voucher voucher) async {
     if (voucher.id.isNotEmpty) {
-      await _db.ref(_dbPaths.vouchers + "/" + voucher.id).remove();
+      await _db.ref("${_dbPaths.vouchers}/${voucher.id}").remove();
     }
   }
 
   Future<Voucher> updateVoucher(Voucher voucher) async {
     await _db
-        .ref(_dbPaths.vouchers + "/" + voucher.id)
+        .ref("${_dbPaths.vouchers}/${voucher.id}")
         .update(voucher.getJson());
     return voucher;
   }

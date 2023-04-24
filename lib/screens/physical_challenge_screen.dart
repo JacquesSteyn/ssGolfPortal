@@ -52,10 +52,6 @@ class _PhysicalChallengeScreenState
 
   Widget editButton(PhysicalChallenge challenge) {
     return ElevatedButton(
-      child: const Icon(
-        Icons.edit,
-        color: Colors.black,
-      ),
       onPressed: () {
         ref
             .read(physicalStateProvider.notifier)
@@ -64,6 +60,10 @@ class _PhysicalChallengeScreenState
       },
       style:
           ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+      child: const Icon(
+        Icons.edit,
+        color: Colors.black,
+      ),
     );
   }
 
@@ -77,19 +77,19 @@ class _PhysicalChallengeScreenState
               alignment: Alignment.center,
               items: [
                 const DropdownMenuItem(
+                  value: "all",
                   child: Text(
                     "All",
                     textAlign: TextAlign.center,
                   ),
-                  value: "all",
                 ),
                 ...attributes
                     .map((attribute) => DropdownMenuItem(
+                          value: attribute.id,
                           child: Text(
                             attribute.name,
                             textAlign: TextAlign.center,
                           ),
-                          value: attribute.id,
                         ))
                     .toList()
               ],
@@ -120,7 +120,7 @@ class _PhysicalChallengeScreenState
 
   @override
   Widget build(BuildContext context) {
-    const double _responsiveWidth = 1500;
+    const double responsiveWidth = 1500;
     double screenWidth = MediaQuery.of(context).size.width;
 
     var physicalProvider = ref.watch(physicalStateProvider);
@@ -159,7 +159,7 @@ class _PhysicalChallengeScreenState
                 'Description',
                 'Status',
                 'Video',
-                screenWidth > _responsiveWidth ? 'Difficulty' : "",
+                screenWidth > responsiveWidth ? 'Difficulty' : "",
                 'Total\n Completions',
                 'Total\n Feedback',
                 ""
@@ -197,7 +197,7 @@ class _PhysicalChallengeScreenState
                           ),
                   ),
                   DataCell(
-                    screenWidth > _responsiveWidth
+                    screenWidth > responsiveWidth
                         ? RatingBar.builder(
                             initialRating: challenge.difficulty,
                             allowHalfRating: true,
@@ -212,10 +212,26 @@ class _PhysicalChallengeScreenState
                   ),
                   DataCell(Center(
                       child: FutureBuilder<String>(
-                    future:
-                        DBService().fetchChallengeResultsCount(challenge.id),
-                    builder: (context, snapshot) => Text(snapshot.data ?? "0"),
-                  ))),
+                          future: DBService()
+                              .fetchChallengeResultsCount(challenge.id),
+                          builder: (context, snapshot) {
+                            String data = snapshot.data ?? "0";
+                            if (data != "0") {
+                              return InkWell(
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.challengeResultScreen,
+                                      arguments: {
+                                        'challengeType': 'physical',
+                                        'challengeId': challenge.id,
+                                        'challengeName': challenge.name
+                                      });
+                                },
+                                child: Text(data),
+                              );
+                            } else {
+                              return Text(data);
+                            }
+                          }))),
                   DataCell(
                     Center(
                       child: FutureBuilder<String>(

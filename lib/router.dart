@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartgolfportal/screens/attributes_screen.dart';
+import 'package:smartgolfportal/screens/challenge_result_screen.dart';
 import 'package:smartgolfportal/screens/feedback_screen.dart';
 import 'package:smartgolfportal/screens/golf_challenge_edit_screen.dart';
 import 'package:smartgolfportal/screens/golf_challenge_screen.dart';
@@ -22,6 +23,7 @@ class AppRoutes {
   static const loginScreen = '/login';
   //static const dashboardScreen = '/dashboard';
   static const userScreen = "/users";
+  static const challengeResultScreen = "/challengeResultScreen";
   static const golfChallengeScreen = "/golfChallenge";
   static const golfEditScreen = "/golfEdit";
   static const skillElementScreen = "/skillElement";
@@ -42,6 +44,7 @@ class AppRoutes {
     loginScreen: (_) => const LoginScreen(),
     //dashboardScreen: (_) => const DashboardScreen(),
     userScreen: (_) => const UserScreen(),
+    challengeResultScreen: (_) => const ChallengeResultScreen(),
     golfChallengeScreen: (_) => const GolfChallengeScreen(),
     golfEditScreen: (_) => const GolfEditScreen(),
     skillElementScreen: (_) => const SkillElementScreen(),

@@ -135,17 +135,16 @@ class PromotionalDrawViewScreen extends StatelessWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        if (ticketData.isNotEmpty)
-                          ElevatedButton.icon(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.blue)),
-                              icon: const Icon(
-                                Icons.exit_to_app,
-                                color: Colors.white,
-                              ),
-                              label: const Text("Export CSV"),
-                              onPressed: () => generateCSV()),
+                        ElevatedButton.icon(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.blue)),
+                            icon: const Icon(
+                              Icons.exit_to_app,
+                              color: Colors.white,
+                            ),
+                            label: const Text("Export CSV"),
+                            onPressed: () => generateCSV()),
                       ],
                     ),
                     const SizedBox(

@@ -52,10 +52,6 @@ class _GolfChallengeScreenState extends ConsumerState<GolfChallengeScreen> {
 
   Widget editButton(GolfChallenge challenge) {
     return ElevatedButton(
-      child: const Icon(
-        Icons.edit,
-        color: Colors.black,
-      ),
       onPressed: () {
         ref
             .read(golfStateProvider.notifier)
@@ -64,6 +60,10 @@ class _GolfChallengeScreenState extends ConsumerState<GolfChallengeScreen> {
       },
       style:
           ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+      child: const Icon(
+        Icons.edit,
+        color: Colors.black,
+      ),
     );
   }
 
@@ -79,19 +79,19 @@ class _GolfChallengeScreenState extends ConsumerState<GolfChallengeScreen> {
               alignment: Alignment.center,
               items: [
                 const DropdownMenuItem(
+                  value: "all",
                   child: Text(
                     "All",
                     textAlign: TextAlign.center,
                   ),
-                  value: "all",
                 ),
                 ...skills
                     .map((skill) => DropdownMenuItem(
+                          value: skill.id,
                           child: Text(
                             skill.name,
                             textAlign: TextAlign.center,
                           ),
-                          value: skill.id,
                         ))
                     .toList()
               ],
@@ -157,7 +157,7 @@ class _GolfChallengeScreenState extends ConsumerState<GolfChallengeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const double _responsiveWidth = 1500;
+    const double responsiveWidth = 1500;
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -204,7 +204,7 @@ class _GolfChallengeScreenState extends ConsumerState<GolfChallengeScreen> {
                   'Description',
                   'Status',
                   'Video',
-                  screenWidth > _responsiveWidth ? 'Difficulty' : "",
+                  screenWidth > responsiveWidth ? 'Difficulty' : "",
                   'Total\n Completions',
                   'Total\n Feedback',
                   ""
@@ -239,7 +239,7 @@ class _GolfChallengeScreenState extends ConsumerState<GolfChallengeScreen> {
                             ),
                     ),
                     DataCell(
-                      screenWidth > _responsiveWidth
+                      screenWidth > responsiveWidth
                           ? RatingBar.builder(
                               initialRating: challenge.difficulty,
                               allowHalfRating: true,
@@ -254,11 +254,26 @@ class _GolfChallengeScreenState extends ConsumerState<GolfChallengeScreen> {
                     ),
                     DataCell(Center(
                         child: FutureBuilder<String>(
-                      future:
-                          DBService().fetchChallengeResultsCount(challenge.id),
-                      builder: (context, snapshot) =>
-                          Text(snapshot.data ?? "0"),
-                    ))),
+                            future: DBService()
+                                .fetchChallengeResultsCount(challenge.id),
+                            builder: (context, snapshot) {
+                              String data = snapshot.data ?? "0";
+                              if (data != "0") {
+                                return InkWell(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.challengeResultScreen,
+                                        arguments: {
+                                          'challengeType': 'golf',
+                                          'challengeId': challenge.id,
+                                          'challengeName': challenge.name
+                                        });
+                                  },
+                                  child: Text(data),
+                                );
+                              } else {
+                                return Text(data);
+                              }
+                            }))),
                     DataCell(
                       Center(
                         child: FutureBuilder<String>(

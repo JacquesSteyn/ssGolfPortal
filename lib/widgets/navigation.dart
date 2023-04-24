@@ -14,7 +14,8 @@ class NavigationWidget extends ConsumerWidget {
       required this.child,
       this.showSearchBar = true,
       this.searchFunction,
-      this.actions})
+      this.actions,
+      this.showBackOnTitle = false})
       : super(key: key);
 
   final String activePage;
@@ -23,6 +24,7 @@ class NavigationWidget extends ConsumerWidget {
   final Widget child;
   final List<Widget>? actions;
   final Function? searchFunction;
+  final bool showBackOnTitle;
 
   final double _responsiveWidth = 1500;
 
@@ -226,14 +228,33 @@ class NavigationWidget extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: Text(
-                                      titleOverride.isNotEmpty
-                                          ? titleOverride
-                                          : activePage,
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    child: showBackOnTitle
+                                        ? Row(
+                                            children: [
+                                              BackButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                              ),
+                                              Text(
+                                                titleOverride.isNotEmpty
+                                                    ? titleOverride
+                                                    : activePage,
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          )
+                                        : Text(
+                                            titleOverride.isNotEmpty
+                                                ? titleOverride
+                                                : activePage,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                   ),
                                   ...?actions
                                 ],
